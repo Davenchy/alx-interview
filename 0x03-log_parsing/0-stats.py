@@ -6,6 +6,9 @@ import re
 import sys
 from typing import Dict, Tuple, Union
 
+# A list of the allowed status codes
+ALLOWED_CODES = ["200", "301", "400", "401", "403", "404", "405", "500"]
+
 
 def log_line_extractor(line: str) -> Union[None, Tuple[str, str]]:
     """validate and extract data from log line
@@ -38,24 +41,23 @@ if __name__ == "__main__":
 
     try:
         for line in sys.stdin:
+            counter += 1
             results = log_line_extractor(line)
-            if not results:
+            if results is None:
                 continue
+
             code, size = results
             fileSize += int(size)
 
-            if code not in codes:
-                codes[code] = 0
-            codes[code] = codes[code] + 1
+            if code in ALLOWED_CODES:
+                codes[code] = codes.get(code, 0) + 1
 
             if counter == 10:
                 print_stats(fileSize, codes)
                 counter = 0
-            else:
-                counter += 1
     except KeyboardInterrupt:
         print_stats(fileSize, codes)
-        sys.exit(0)
+        counter = 0
 
-    if counter:
+    if counter > 0:
         print_stats(fileSize, codes)
