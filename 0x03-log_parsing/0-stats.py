@@ -17,8 +17,8 @@ def log_line_extractor(line: str) -> Union[None, Tuple[str, str]]:
     Returns:
         Extracted data as a tuple of (code, size) or None if line is invalid"""
     results = re.findall(
-        r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} - \[.*\]"
-        + r" \"GET /projects/260 HTTP/1.1\" (\d{3}) (\d+)$",
+        r"^.*\s?-\s?\[.*\]" +
+        r" \"GET /projects/260 HTTP/1.1\" (\d{3}) (\d+)$",
         line,
     )
 
@@ -35,8 +35,8 @@ def print_stats(fileSize: int, codes: Dict[str, int]):
 
 
 if __name__ == "__main__":
-    fileSize: int = 0
-    codes: Dict[str, int] = dict()
+    fileSize = 0
+    codes = dict()
     counter = 0
 
     try:
