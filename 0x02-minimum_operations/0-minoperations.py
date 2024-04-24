@@ -4,11 +4,10 @@
 
 def find_divider(x: int) -> int:
     """find the nearest lower number of x that is divisible by x"""
-    import math
     if x <= 3:
         return 1
 
-    for i in range(int(math.sqrt(x)), 1, -1):
+    for i in range(x - 1, 1, -1):
         if x % i == 0:
             return i
     return 1
@@ -38,8 +37,3 @@ def minOperations(n: int) -> int:
 
     x = find_divider(n)
     return (n // x) + minOperations(x)
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
