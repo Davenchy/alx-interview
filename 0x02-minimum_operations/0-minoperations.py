@@ -2,17 +2,6 @@
 """Solution of minOperations problem"""
 
 
-def find_divider(x: int) -> int:
-    """find the nearest lower number of x that is divisible by x"""
-    if x <= 3:
-        return 1
-
-    for i in range(x - 1, 1, -1):
-        if x % i == 0:
-            return i
-    return 1
-
-
 def minOperations(n: int) -> int:
     """find the minimum copyAll and paste operations to repeat the character
     n times.
@@ -35,5 +24,7 @@ def minOperations(n: int) -> int:
     elif n <= 5:
         return n
 
-    x = find_divider(n)
-    return (n // x) + minOperations(x)
+    for i in range(n - 1, 1, -1):
+        if n % i == 0:
+            return n // i + minOperations(i)
+    return n
