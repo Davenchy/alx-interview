@@ -122,5 +122,4 @@ if __name__ == "__main__":
                 manager.print()
                 manager.resetCounter()
     finally:
-        if manager.counter > 0:
-            manager.print()
+        manager.print()
