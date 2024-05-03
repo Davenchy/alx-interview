@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" My solution for stats log parser """
 
 import sys
 import signal
@@ -69,6 +70,7 @@ class StatisticsManager:
 
     @property
     def counter(self) -> int:
+        """ Return the number of processed log lines """
         return self._counter
 
     def readLogLine(self, line: LogLine):
