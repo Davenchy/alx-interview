@@ -7,20 +7,6 @@ import re
 from typing import Generator, Dict
 
 
-def signal_handler(sig, frame):
-    """ Signal handler to exit on kill signal """
-    sys.exit()
-
-
-def stdin_reader() -> Generator[str, None, None]:
-    """ Read from stdin and yield each line striped """
-    while True:
-        line = sys.stdin.readline()
-        if not line:
-            break
-        yield line.strip()
-
-
 class LogLine:
     """ Log line object """
     RE_TEMP = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
@@ -93,15 +79,17 @@ class StatisticsManager:
     def print(self):
         """ Print statistics """
         sorted_codes = sorted(self._codes.items(), key=lambda x: x[0])
-        print(f'File size: {self.total_size}')
+        print(f'File size: {self.total_size}', flush=False)
         for code, count in sorted_codes:
-            print(f'{code}: {count}')
+            print(f'{code}: {count}', flush=False)
+        sys.stdout.flush()
 
 
-def start(manager: StatisticsManager):
-    """ The main loop """
+if __name__ == "__main__":
+    manager = StatisticsManager()
+
     try:
-        for line in stdin_reader():
+        for line in sys.stdin:
             try:
                 line = LogLine.fromLine(line)
             except AttributeError:
@@ -111,14 +99,5 @@ def start(manager: StatisticsManager):
             if manager.counter >= 10:
                 manager.print()
                 manager.reset()
-    except KeyboardInterrupt:
+    finally:
         manager.print()
-        manager.reset()
-
-
-if __name__ == "__main__":
-    signal.signal(signal.SIGTERM, signal_handler)
-    manager = StatisticsManager()
-
-    while True:
-        start(manager)

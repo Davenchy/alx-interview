@@ -9,24 +9,15 @@ log_temp = "{:d}.{:d}.{:d}.{:d} - [{}] "
 log_temp += '"GET /projects/260 HTTP/1.1"'
 log_temp += " {} {}\n"
 
-try:
-    for i in range(10000):
-        sleep(random.random())
-        sys.stdout.write(log_temp.format(
-            random.randint(1, 255),
-            random.randint(1, 255),
-            random.randint(1, 255),
-            random.randint(1, 255),
-            datetime.datetime.now(),
-            random.choice([200, 301, 400, 401, 403, 404, 405, 500]),
-            random.randint(1, 1024)
-        ))
-        sys.stdout.flush()
-except BrokenPipeError:
-    print('BrokenPipe')
-    fd = os.open(os.devnull, os.O_WRONLY)
-    os.dup2(fd, sys.stdout.fileno())
-    exit()
-except KeyboardInterrupt:
-    print('Stopped')
-    exit()
+for i in range(10000):
+    sleep(random.random())
+    sys.stdout.write(log_temp.format(
+        random.randint(1, 255),
+        random.randint(1, 255),
+        random.randint(1, 255),
+        random.randint(1, 255),
+        datetime.datetime.now(),
+        random.choice([200, 301, 400, 401, 403, 404, 405, 500]),
+        random.randint(1, 1024)
+    ))
+    sys.stdout.flush()
