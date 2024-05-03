@@ -41,7 +41,7 @@ class StatisticsManager:
     def __init__(self):
         """ Initialize a StatisticsManager object """
         self._total_size = 0
-        self._codes: Dict[int, int] = {}
+        self._codes = {}
         self._counter = 0
 
     @property
