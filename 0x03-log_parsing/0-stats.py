@@ -90,6 +90,8 @@ if __name__ == "__main__":
 
     try:
         for line in sys.stdin:
+            if not line:
+                raise EOFError()
             try:
                 line = LogLine.fromLine(line)
             except AttributeError:
@@ -100,4 +102,5 @@ if __name__ == "__main__":
                 manager.print()
                 manager.reset()
     finally:
-        manager.print()
+        if manager.counter > 0:
+            manager.print()

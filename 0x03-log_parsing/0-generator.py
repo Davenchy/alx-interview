@@ -9,7 +9,9 @@ log_temp = "{:d}.{:d}.{:d}.{:d} - [{}] "
 log_temp += '"GET /projects/260 HTTP/1.1"'
 log_temp += " {} {}\n"
 
-for i in range(10000):
+
+iterations = int(sys.argv[1]) if len(sys.argv) >= 2 else 10000
+for i in range(iterations):
     sleep(random.random())
     sys.stdout.write(log_temp.format(
         random.randint(1, 255),
