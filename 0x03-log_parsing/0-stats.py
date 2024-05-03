@@ -59,6 +59,10 @@ class StatisticsManager:
         """ Return the number of processed log lines """
         return self._counter
 
+    def resetCounter(self):
+        """ Reset the number of processed log lines """
+        self._counter = 0
+
     def readLogLine(self, line: LogLine):
         """ Read a log line and update statistics """
         self._total_size += line.size
@@ -94,6 +98,7 @@ if __name__ == "__main__":
 
             if manager.counter >= 10:
                 manager.print()
+                manager.resetCounter()
     finally:
         if manager.counter > 0:
             manager.print()
