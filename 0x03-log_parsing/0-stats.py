@@ -70,12 +70,6 @@ class StatisticsManager:
 
         self._counter += 1
 
-    def reset(self):
-        """ Reset statistics """
-        self._total_size = 0
-        self._counter = 0
-        self._codes = {}
-
     def print(self):
         """ Print statistics """
         sorted_codes = sorted(self._codes.items(), key=lambda x: x[0])
@@ -100,7 +94,6 @@ if __name__ == "__main__":
 
             if manager.counter >= 10:
                 manager.print()
-                manager.reset()
     finally:
         if manager.counter > 0:
             manager.print()
