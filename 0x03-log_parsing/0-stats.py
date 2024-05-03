@@ -7,10 +7,14 @@ import re
 from typing import Generator, Dict
 
 
+class InvalidLogLine(Exception):
+    """ Exception raised when invalid log line is parsed """
+    pass
+
+
 class LogLine:
     """ Log line object """
-    RE_TEMP = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
-                         r' - \[[^\]]+\] ".*?" (\d{3}) (\d+)')
+    RE_TEMP = re.compile(r'.*(\d{3}) (\d+)$')
 
     def __init__(self, status: int, size: int):
         """ Initialize a LogLine object """
@@ -20,8 +24,25 @@ class LogLine:
     @staticmethod
     def fromLine(line: str) -> "LogLine":
         """ Parse a log line and return a LogLine object """
-        results = LogLine.RE_TEMP.match(line.strip())
-        return LogLine(*results.groups())
+        line = line.strip()
+        if not line:
+            raise InvalidLogLine()
+
+        line = line.split()[::-1]
+        if len(line) < 2:
+            raise InvalidLogLine()
+
+        try:
+            size = int(line[0])
+        except Exception:
+            size = 0
+
+        try:
+            status = int(line[1])
+        except Exception:
+            status = -1
+
+        return LogLine(status, size)
 
     @property
     def size(self) -> int:
@@ -65,14 +86,15 @@ class StatisticsManager:
 
     def readLogLine(self, line: LogLine):
         """ Read a log line and update statistics """
+        self._counter += 1
         self._total_size += line.size
 
+        if line.status == -1:
+            return
         if line.status in self._codes:
             self._codes[line.status] += 1
         else:
             self._codes[line.status] = 1
-
-        self._counter += 1
 
     def print(self):
         """ Print statistics """
@@ -92,7 +114,7 @@ if __name__ == "__main__":
                 raise EOFError()
             try:
                 line = LogLine.fromLine(line)
-            except AttributeError:
+            except InvalidLogLine:
                 continue
             manager.readLogLine(line)
 
