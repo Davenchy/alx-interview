@@ -124,7 +124,9 @@ class UTF8Byte:
                 counter += 1
             else:
                 break
-        return counter
+
+        # limit the number of levels to 3
+        return counter if counter <= 3 else -1
 
     def __getitem__(self, index: int) -> int:
         return self._bits[index]
