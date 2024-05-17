@@ -49,16 +49,16 @@ def is_solution(sol: List[int]) -> bool:
     return True
 
 
-def q(sol: List[int], n: int):
+def queens(sol: List[int], n: int):
     if len(sol) < n:
         cases = [i
                  for i in range(n)
                  if len(sol) == 0 or abs(sol[-1] - i) not in (0, 1)]
         for i in cases:
-            q(sol + [i], n)
+            queens(sol + [i], n)
     elif len(sol) == n:
         if is_solution(sol):
-            print(sol)
+            print([[i, j] for i, j in enumerate(sol)])
 
 
 if __name__ == '__main__':
@@ -71,6 +71,6 @@ if __name__ == '__main__':
         if n < 4:
             print('N must be at least 4')
             sys.exit(1)
-        q([], n)
+        queens([], n)
     except ValueError:
         print('N must be a number')
