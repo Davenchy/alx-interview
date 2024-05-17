@@ -2,7 +2,7 @@
 """ Solving N queens problem """
 
 import sys
-from typing import Generator, List
+from typing import List
 
 
 def is_solution(sol: List[int]) -> bool:
