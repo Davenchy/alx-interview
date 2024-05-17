@@ -29,36 +29,35 @@ def is_solution(sol: List[int]) -> bool:
         >>> is_solution([2, 0, 3, 1])
         True
     """
-    if len(sol) <= 1:
-        return True
-
-    # valid solution does not have repeated values
-    # or more than queen on the same column
-    if len(set(sol)) != len(sol):
+    qn = len(sol)
+    # no repeats on the same column
+    if len(set(sol)) != qn:
         return False
 
-    # check diagonals
-    for i in range(len(sol) - 1):
-        if sol[i] == -1:
-            return True
-        for j in range(i + 1, len(sol)):
-            a, b = sol[i], sol[j]
-            delta = abs(a - b)
-            if delta in (0, j - i):
-                return False
-    return True
+    # calculate diagonals
+    pos, neg = set(), set()
+    for i in range(qn):
+        pos.add(i + sol[i])
+        neg.add(i - sol[i])
+
+    # no repeats on diagonals
+    return len(pos) == len(neg) == qn
 
 
 def queens(sol: List[int], n: int):
+    is_sol = is_solution(sol)
+    if not is_sol:
+        return
+    if is_sol and len(sol) == n:
+        print([[i, j] for i, j in enumerate(sol)])
+        return
+
     if len(sol) < n:
         cases = [i
                  for i in range(n)
                  if len(sol) == 0 or abs(sol[-1] - i) not in (0, 1)]
         for i in cases:
             queens(sol + [i], n)
-    elif len(sol) == n:
-        if is_solution(sol):
-            print([[i, j] for i, j in enumerate(sol)])
 
 
 if __name__ == '__main__':
