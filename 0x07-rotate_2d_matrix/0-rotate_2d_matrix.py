@@ -3,16 +3,14 @@
 Rotate 2D Matrix Problem Solution
 """
 
-from typing import List, Tuple
 
-
-def next_cell(r, c, size) -> Tuple[int, int]:
+def next_cell(r, c, size):
     """ Get the next cell of swap for the current cell usint its (row, col)
     """
     return c, size - r - 1
 
 
-def rotate_2d_matrix(matrix: List[List[int]]) -> None:
+def rotate_2d_matrix(matrix):
     """ Rotate matrix 90 degrees clockwise in-place
     """
     size = len(matrix)
