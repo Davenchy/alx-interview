@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 """ Island Perimeter Interview Problem Solving """
 
-WATER = 0
-LAND = 1
 
-
-def get_cell_state(grid: list[list[int]], r: int, c: int):
+def get_cell_state(grid, r, c):
     """ Returns cell state, 0 for water and 1 for a land.
     if cell out of range will return 0 (water)
 
@@ -23,11 +20,11 @@ def get_cell_state(grid: list[list[int]], r: int, c: int):
         0
     """
     if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[r]):
-        return WATER
+        return 0
     return grid[r][c]
 
 
-def count_land_water_sides(grid: list[list[int]], r: int, c: int) -> int:
+def count_land_water_sides(grid, r, c):
     """ Count land sides that touches the water for a land cell at r, c
 
     Examples:
@@ -43,18 +40,18 @@ def count_land_water_sides(grid: list[list[int]], r: int, c: int) -> int:
     sides_count = 0
 
     # make sure it is a land
-    if get_cell_state(grid, r, c) != LAND:
+    if get_cell_state(grid, r, c) != 1:
         return 0
 
     # check sides
     for r, c in [(r - 1, c), (r, c + 1), (r + 1, c), (r, c - 1)]:
-        if get_cell_state(grid, r, c) == WATER:
+        if get_cell_state(grid, r, c) == 0:
             sides_count += 1
 
     return sides_count
 
 
-def island_perimeter(grid: list[list[int]]):
+def island_perimeter(grid):
     """ Returns the perimeter of the island described in grid
     For each grid cell value, 0 means water and 1 means land. each cell is
     a square with a side of 1 length unit.
