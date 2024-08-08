@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """ Solving prime game problem. """
 
 prime_memory = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
