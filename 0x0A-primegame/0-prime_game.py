@@ -43,6 +43,9 @@ def isWinner(x, nums):
     determine who the winner of each game is.
 
     Returns the player who won the most games or None if there is a tie."""
+    if x <= 0 or x > len(nums):
+        return None
+
     maria_score, ben_score = 0, 0
     primes = generate_primes(max(nums[:x]))
 
@@ -59,3 +62,8 @@ def isWinner(x, nums):
     if maria_score < ben_score:
         return "Ben"
     return None
+
+
+if __name__ == "__main__":
+    print(isWinner(0, [0]))
+    print(isWinner(-1, [10]))
